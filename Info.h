@@ -14,6 +14,9 @@
 #ifndef INFO_H
 #define INFO_H
 
+#include "ParseString.h"
+
+
 template<class T>
 class Info{
     
@@ -24,6 +27,8 @@ private:
 public:
     
     Info(const T &info) : info(info) {}
+    Info(ParseString<T> *parse, const std::string &info) : info(parse->parse(info)) {}
+    
     
     virtual ~Info(){}
     
@@ -40,7 +45,7 @@ public:
         os << obj.getInfo();
         return os;
     }
-
+    
 
 };
 

@@ -18,12 +18,14 @@
 #include <functional> 
 #include <algorithm>
 #include "Link.h"
+#include "ParseString.h"
 
 template<class I1, class I2>
 class Node : protected std::vector<Link<I1, I2>*>, public Info<I1> {
 public:
 
     Node(const I1 &info) : std::vector<Link<I1, I2>*>(), Info<I1>(info) {}
+    Node(ParseString<I1> *parse, const std::string &info) : std::vector<Link<I1, I2>*>(), Info<I1>(parse, info) {}
 
     virtual ~Node() {}
 
@@ -77,7 +79,8 @@ public:
     bool contains(Link<I1, I2>* link) {
         return this->end() != std::find(this->begin(), this->end(), link);
     }
-
+    
+    
 
 };
 

@@ -17,99 +17,128 @@
 #include "Node.h"
 #include "Arch.h"
 #include "Edge.h"
+#include "ParseString.h"
 
 using namespace std;
 
-class Pessoa{
+class Pessoa {
 public:
     std::string nome;
-    Pessoa(std::string nome) : nome(nome) {}
-    
-    
-    virtual std::string toString()const{
+
+    Pessoa(std::string nome) : nome(nome) {
+    }
+
+    virtual std::string toString()const {
         return this->nome;
     }
 };
 
-class Aluno: public Pessoa{
+class Aluno : public Pessoa {
 public:
     std::string matricula;
-    Aluno(std::string nome, std::string matricula) : Pessoa(nome), matricula(matricula) {}
 
-    virtual std::string toString()const{
+    Aluno(std::string nome, std::string matricula) : Pessoa(nome), matricula(matricula) {
+    }
+
+    virtual std::string toString()const {
         return Pessoa::toString() + " - " + this->matricula;
     }
-    
-    
+
     friend std::ostream& operator<<(std::ostream& os, const Aluno& obj) {
         os << obj.toString();
         return os;
     }
+
+    class Parse : public ParseString<Aluno> {
+        public:
+
+            virtual Aluno* parse(const std::string &str) {
+                std::string delimiter = " ";
+
+                size_t pos = str.find(delimiter);
+                std::string nome = str.substr(0, pos);
+                std::string mat = str.substr(pos + delimiter.length());
+
+                return new Aluno(nome, mat);
+            }
+    };
+
+};
+
+class AlGraph : public Graph<Aluno, float> {
+public:
+
+    AlGraph() : Graph<Aluno, float>() {
+    }
+
+};
+
+class AlNode : public Node<Aluno, float> {
+
+public:
+
+    AlNode(const Aluno &aluno) : Node<Aluno, float>(aluno) {}
+    
     
 
+
+    
 };
 
-class AlGraph : public Graph<Aluno,float>{
+class AlFloatLink : public Arch<Aluno, float> {
 public:
-    AlGraph() : Graph<Aluno,float>() {}
-        
+
+    AlFloatLink(AlNode* node, const float& info) : Arch<Aluno, float>(node, info) {
+    }
+
+    
+    virtual Link<Aluno, float>* get(Node<Aluno, float> *node, const float &info) {
+        AlNode* alNode = static_cast<AlNode*> (node);
+        return new AlFloatLink(alNode, info);
+    }
+
 };
-
-
-class AlNode : public Node<Aluno,float>{
-public:
-    AlNode(const Aluno &aluno) : Node<Aluno,float>(aluno) { }
-};
-
-
-class AlFloatLink : public Arch<Aluno,float>{
-public:
-    AlFloatLink(AlNode* node, const float& info) : Arch<Aluno,float>(node, info) {}    
-};
-
-
-
 
 /* 
  * 
  */
 int main(int argc, char** argv) {
-    
-    
+
+
     Aluno vitor("Vitor", "123");
     Aluno isa("Isa", "456");
     Aluno pedro("Pedro", "789");
     Aluno maria("Maria", "321");
-    
-    
+
+
     AlNode nVitor(vitor);
     AlNode nIsa(isa);
     AlNode nPedro(pedro);
     AlNode nMaria(maria);
-    
+
     nVitor.smartAdd(new AlFloatLink(&nIsa, 1.0));
     nPedro.smartAdd(new AlFloatLink(&nMaria, 1.0));
     nMaria.smartAdd(new AlFloatLink(&nVitor, 0.5));
-    
+
     AlGraph g;
-    
+
     g.smartAdd(&nVitor);
     g.smartAdd(&nPedro);
-    
-    
-    
-    
-    
+
+
+
+
+
     cout << g;
-   
-    
-    
-    
-    
-    
-  
+
+
+
+
+
+
+
 
     return 0;
-    
+
 }
 

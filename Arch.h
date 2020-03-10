@@ -26,14 +26,13 @@ public:
     virtual bool isDual(){
         return false;
     }
-    
-    virtual Link<I1,I2>* get(Node<I1,I2> *node, const I2 &info){
-        return new Arch<I1,I2>(node, info);
-    }
-    
+            
     virtual Link<I1,I2>* get(Node<I1,I2> *node, const I2 &info, Link<I1,I2>* dual){
         return this->get(node, info);
     }
+    
+    virtual Link<I1,I2>* get(Node<I1,I2> *node, const I2 &info) = 0;
+    
     
 };
 

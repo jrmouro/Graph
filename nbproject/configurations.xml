@@ -10,6 +10,7 @@
       <itemPath>Info.h</itemPath>
       <itemPath>Link.h</itemPath>
       <itemPath>Node.h</itemPath>
+      <itemPath>ParseString.h</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Arquivos de Código-Fonte"
@@ -58,6 +59,8 @@
       </item>
       <item path="Node.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="ParseString.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>
@@ -92,6 +95,8 @@
       <item path="Link.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Node.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ParseString.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
